@@ -24,7 +24,7 @@ import Admin from '@/models/Admin';
 from __future__ import annotations
 from .utils import cookie_parse, cookie_serialize, serialize_options
 from .utils import is_token_expired, get_token_payload
-from pocketbase.api.models import User, Admin
+from ..models import User, Admin
 from typing import Callable, List, Optional, Union
 import datetime
 import requests

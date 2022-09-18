@@ -58,11 +58,11 @@ class Collection(BaseModel):
         self.system = bool(data.get('system', False))
 
         # rules
-        self.listRule = data.get('listRule', None)
-        self.viewRule = data.get('viewRule', None)
-        self.createRule = data.get('createRule', None)
-        self.updateRule = data.get('updateRule', None)
-        self.deleteRule = data.get('deleteRule', None)
+        self.list_rule = data.get('listRule', None)
+        self.view_rule = data.get('viewRule', None)
+        self.create_rule = data.get('createRule', None)
+        self.update_rule = data.get('updateRule', None)
+        self.delete_rule = data.get('deleteRule', None)
 
         # schema
         self.schema = []
@@ -73,10 +73,10 @@ class Collection(BaseModel):
         return {
             'name': self.name,
             'system': self.system,
-            'listRule': self.listRule,
-            'viewRule': self.viewRule,
-            'createRule': self.createRule,
-            'updateRule': self.updateRule,
-            'deleteRule': self.deleteRule,
+            'listRule': self.list_rule,
+            'viewRule': self.view_rule,
+            'createRule': self.create_rule,
+            'updateRule': self.update_rule,
+            'deleteRule': self.delete_rule,
             'schema': [field.to_dict() for field in self.schema]
         }

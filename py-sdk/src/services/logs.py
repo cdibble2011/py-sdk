@@ -11,8 +11,8 @@ import BaseService from '@/services/utils/BaseService';
 
 
 """
-from pocketbase.api.services.utils import BaseService
-from pocketbase.models import LogRequest, ListResult
+from .utils import BaseService
+from ..models import LogRequest, ListResult
 
 class HourlyStats:
     """

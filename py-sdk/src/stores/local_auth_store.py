@@ -14,7 +14,7 @@ import User          from '@/models/User';
 import Admin         from '@/models/Admin';
 """
 from .base_auth_store import BaseAuthStore
-from pocketbase.models import User, Admin
+from ..models import User, Admin
 
 class LocalAuthStore(BaseAuthStore):
     """

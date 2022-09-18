@@ -15,11 +15,11 @@ class Admin(BaseModel):
         lastResetSentAt!: string;
     }
     """
-    def __init__(self, avatar, email, last_reset_sent_at):
+    def __init__(self, avatar: int, email: str, last_reset_sent_at: str):
         self.avatar = avatar
         self.email = email
         self.last_reset_sent_at = last_reset_sent_at
-
+        
     def __repr__(self):
         return f'<Admin avatar={self.avatar} email={self.email} last_reset_sent_at={self.last_reset_sent_at}>'
 

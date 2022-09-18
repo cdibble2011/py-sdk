@@ -4,8 +4,6 @@ Record Model
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/Record.ts
 
 import BaseModel from '@/models/utils/BaseModel';
-
-
 """
 from .utils import BaseModel
 
@@ -19,7 +17,7 @@ class Record(BaseModel):
         '@expand'!:         {[key: string]: any}; 
     }
     """
-    def __init__(self, collection_id, collection_name, expand, **kwargs):
+    def __init__(self, collection_id: str, collection_name: str, expand, **kwargs):
         self.collection_id = collection_id
         self.collection_name = collection_name
         self.expand = expand

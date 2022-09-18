@@ -2,10 +2,6 @@
 Client
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/Client.ts
-
-
-
-
 """
 
 """
@@ -154,7 +150,7 @@ class Client:
             this.realtime    = new Realtime(this);
         }
         """
-        self.baseUrl = '/'
+        self.base_url = '/'
         self.lang = 'en-US'
         self.auth_store = LocalAuthStore()
 
@@ -255,7 +251,7 @@ class Client:
     return self.realtime
     """
 
-    def cancel_request(self, cencel_key: str):
+    def cancel_request(self, cancel_key: str):
         """
         /**
          * Cancels single request by its cancellation key.

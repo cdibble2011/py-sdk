@@ -4,8 +4,6 @@ List Result
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/utils/ListResult.ts
 
 import BaseModel from './BaseModel';
-
-
 """
 
 from .base_model import BaseModel
@@ -20,7 +18,7 @@ class ListResult(BaseModel):
         items!: Array<M>;
     }
     """
-    def __init__(self, page, per_page, total_items, total_pages, items):
+    def __init__(self, page: int, per_page: int, total_items: int, total_pages: int, items: list = []):
         """
         constructor(
             page: number,
@@ -36,10 +34,22 @@ class ListResult(BaseModel):
             this.items = items || [];
         }
         """
-        self.page = page
-        self.per_page = per_page
-        self.total_items = total_items
-        self.total_pages = total_pages
+        if page > 0:
+            self.page = page
+        else:
+            self.page = 1
+        if per_page >= 0:
+            self.per_page = per_page
+        else:
+            self.per_page = 0
+        if total_items >= 0:
+            self.total_items = total_items
+        else:
+            self.total_items = 0
+        if total_pages >= 0:
+            self.total_pages = total_pages
+        else:
+            self.total_pages = 0
         self.items = items
 
     def __repr__(self):

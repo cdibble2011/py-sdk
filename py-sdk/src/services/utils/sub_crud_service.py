@@ -9,7 +9,7 @@ import BaseCrudService from '@/services/utils/BaseCrudService';
 """
 
 from typing import Any, Dict, List, Optional, Union
-from pocketbase.api.models import BaseModel, ListResult
+from ...models import BaseModel, ListResult
 from .base_crud_service import BaseCrudService
 
 class SubCrudService(BaseCrudService, BaseModel):
