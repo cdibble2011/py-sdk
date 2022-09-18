@@ -8,6 +8,10 @@ they still have a fairly sizeable learning curve for anyone new to the language.
 In theory, this should make it somewhat trivial to create a simple microservice with
 a CRUD component and modern/secure/common authorization methods.
 
+# Warning:
+I did this in about six hours overnight and leaned pretty hard on CoPilot.
+This is a starting point, and requires lots of refinement
+
 # Pocketbase:
 https://pocketbase.io/
 
