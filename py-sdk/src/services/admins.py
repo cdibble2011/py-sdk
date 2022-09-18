@@ -4,9 +4,9 @@ Admin Service
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/services/Admins.ts
 """
 
-from pocketbase.api.stores.utils import cookie_parse, fieldContentRegExp, parse_options, serialize_options, default_decode, default_encode, is_date, cookie_serialize
-from pocketbase.api.stores.utils import a_to_b_polyfill, get_token_payload, is_token_expired
-from pocketbase.api.models import Admin
+from ..stores.utils import cookie_parse, fieldContentRegExp, parse_options, serialize_options, default_decode, default_encode, is_date, cookie_serialize
+from ..stores.utils import a_to_b_polyfill, get_token_payload, is_token_expired
+from ..models import Admin
 from .utils import CrudService
 
 class AdminAuthResponse:
@@ -17,7 +17,7 @@ class AdminAuthResponse:
         admin: Admin,
     }
     """
-    def __init__(self, token: str, admin: Admin):
+    def __init__(self, token: str, admin: Admin, **kwargs):
         self.token = token
         self.admin = admin
         
@@ -61,7 +61,7 @@ class Admins(CrudService):
 
         return AdminAuthResponse(token=response_data.get('token', ''), admin=admin, **response_data)
 
-    def base_crud_path(self):
+    def base_crud_path(self) -> str:
         """
         /**
          * @inheritdoc

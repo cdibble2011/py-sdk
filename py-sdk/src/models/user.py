@@ -19,7 +19,7 @@ class User(BaseModel):
         profile!:                null|Record;
     }
     """
-    def __init__(self, email, verified, last_reset_sent_at, last_verification_sent_at, profile):
+    def __init__(self, email: str, verified: bool, last_reset_sent_at: str, last_verification_sent_at: str, profile: None or Record):
         self.email = email
         self.verified = verified
         self.last_reset_sent_at = last_reset_sent_at

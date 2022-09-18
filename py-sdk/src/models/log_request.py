@@ -4,8 +4,6 @@ Log Request Model
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/LogRequest.ts
 
 import BaseModel from '@/models/utils/BaseModel';
-
-
 """
 from .utils import BaseModel
 
@@ -23,7 +21,7 @@ class LogRequest(BaseModel):
         meta!:      null|{ [key: string]: any };
     }
     """
-    def __init__(self, url, method, status, auth, remote_ip, user_ip, referer, user_agent, meta):
+    def __init__(self, url: str, method: str, status: int, auth: str, remote_ip: str, user_ip: str, referer: str, user_agent: str, meta):
         self.url = url
         self.method = method
         self.status = status

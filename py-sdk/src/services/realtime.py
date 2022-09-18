@@ -9,7 +9,7 @@ import Record      from '@/models/Record';
 
 """
 from .utils import BaseService
-from pocketbase.api.models import Record
+from ..models import Record
 
 class MessageData:
     """

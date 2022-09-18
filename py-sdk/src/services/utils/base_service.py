@@ -7,7 +7,7 @@ import Client from '@/Client';
 
 """
 from abc import ABC, abstractmethod
-from pocketbase.api.client import Client
+from ...client import Client
 
 class BaseService(ABC):
     """

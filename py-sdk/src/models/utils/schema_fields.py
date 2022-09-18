@@ -2,8 +2,6 @@
 Schema Fields
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/utils/SchemaField.ts
-
-
 """
 
 from abc import ABC, abstractmethod
@@ -26,7 +24,7 @@ class SchemaField(ABC):
             this.load(data || {});
         }
         """
-        self.load(data or {})
+        self.load(data)
 
     @abstractmethod
     def __repr__(self):

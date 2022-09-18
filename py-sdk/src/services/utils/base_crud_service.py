@@ -8,8 +8,8 @@ import ListResult  from '@/models/utils/ListResult';
 import BaseService from '@/services/utils/BaseService';
 """
 from .base_service import BaseService
-from pocketbase.api.models.utils import ListResult
-from pocketbase.api.models.utils.base_model import BaseModel
+from ...models.utils import ListResult
+from ...models.utils.base_model import BaseModel
 
 class BaseCrudService(BaseService, BaseModel):
     """

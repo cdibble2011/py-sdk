@@ -4,8 +4,6 @@ External Auth Model
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/ExternalAuth.ts
 
 import BaseModel from '@/models/utils/BaseModel';
-
-
 """
 from .utils import BaseModel
 
@@ -17,7 +15,7 @@ class ExternalAuth(BaseModel):
         providerId!: string;    
     }
     """
-    def __init__(self, user_id, provider, provider_id):
+    def __init__(self, user_id: str, provider: str, provider_id: str):
         self.user_id = user_id
         self.provider = provider
         self.provider_id = provider_id

@@ -5,12 +5,10 @@ Source: https://github.com/pocketbase/js-sdk/blob/master/src/services/Collection
 
 import CrudService from '@/services/utils/CrudService';
 import Collection  from '@/models/Collection';
-
-
 """
-
+from typing import List
 from .utils import CrudService
-from pocketbase.api.models import Collection
+from ..models import Collection
 
 class Collections(CrudService):
     """
@@ -30,7 +28,7 @@ class Collections(CrudService):
         """
         return Collection(data)
 
-    def base_crud_path(self):
+    def base_crud_path(self) -> str:
         """
         /**
          * @inheritdoc
@@ -41,7 +39,7 @@ class Collections(CrudService):
         """
         return '/api/collections'
 
-    def import_collections(self, collections, delete_missing: bool = False,  query_params: dict = {}):
+    def import_collections(self, collections: List[Collection], delete_missing: bool = False,  query_params: dict = {}):
         """
         /**
          * Imports the provided collections.
