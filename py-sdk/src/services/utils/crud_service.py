@@ -85,3 +85,5 @@ class CrudService(BaseCrudService, BaseModel):
         }
         """
         return self._delete(self.base_crud_path(), id, query_params)
+
+    

@@ -34,7 +34,7 @@ class ListResult(BaseModel):
             this.items = items || [];
         }
         """
-        self.load(data)
+        self.load(data or {})
 
     def __repr__(self):
         return f'<ListResult page={self.page} \
@@ -70,28 +70,27 @@ class ListResult(BaseModel):
         """
         super().load(data)
         self.page = data.get('page', 1)
-        self.per_page = data.get('per_page', 0)
-        self.total_items = data.get('total_items', 0)
-        self.total_pages = data.get('total_pages', 0)
+        self.per_page = data.get('perPage', 0)
+        self.total_items = data.get('totalItems', 0)
+        self.total_pages = data.get('totalPages', 0)
         self.items = data.get('items', [])
         
     def to_dict(self):
+        super().to_dict()
         return {
-            'id': self.id,
-            'created': self.created,
-            'updated': self.updated,
             'page': self.page,
-            'per_page': self.per_page,
-            'total_items': self.total_items,
-            'total_pages': self.total_pages,
+            'perPage': self.per_page,
+            'totalItems': self.total_items,
+            'totalPages': self.total_pages,
             'items': self.items,
+            **self._base_dict
         }
 
     @classmethod
-    def from_dict(cls, d: dict):
-        return cls(d)
+    def from_dict(cls, data: dict):
+        return cls(data)
     
-    def clone(self):
+    def clone(self) -> dict:
         """
         Robust deep clone of a model.
         clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }

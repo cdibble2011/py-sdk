@@ -114,14 +114,14 @@ class BaseCrudService(BaseService, BaseModel):
             response_data['items'] = response_data.get('items', [])
             for item in response_data['items']:
                 items.append(self.decode(item))
-
-        return ListResult(
-            response_data.get('page', 1),
-            response_data.get('perPage', 0),
-            response_data.get('totalItems', 0),
-            response_data.get('totalPages', 0),
-            items,
-        )
+                
+        return ListResult(data = {
+            'page': response_data.get('page', 1),
+            'perPage': response_data.get('perPage', 0),
+            'totalItems': response_data.get('totalItems', 0),
+            'totalPages': response_data.get('totalPages', 0),
+            'items': items,
+        })
 
     async def _get_one(self, base_path: str, id, query_params: dict = {}):
         """
@@ -194,3 +194,16 @@ class BaseCrudService(BaseService, BaseModel):
             'params': query_params,
         })
         return True
+    
+    def to_dict(self):
+        raise NotImplementedError(f'{__class__}.to_dict() is not implemented!')
+
+    def load(self):
+        raise NotImplementedError(f'{__class__}.load() is not implemented!')
+
+    def clone(self):
+        raise NotImplementedError(f'{__class__}.clone() is not implemented!')
+    
+    def export(self):
+        raise NotImplementedError(f'{__class__}.export() is not implemented!')
+    

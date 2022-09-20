@@ -74,3 +74,11 @@ class BaseModel(ABC):
         export(): { [key: string]: any } { return Object.assign({}, this); }
         """
         return self.__dict__
+
+    @abstractmethod
+    def to_dict(self):
+        self._base_dict = {
+            'id': self.id,
+            'created': self.created,
+            'updated': self.updated,
+            }

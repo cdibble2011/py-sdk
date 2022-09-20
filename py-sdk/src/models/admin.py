@@ -37,14 +37,13 @@ class Admin(BaseModel):
     def __hash__(self):
         return hash((self.avatar, self.email, self.last_reset_sent_at))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        super().to_dict()
         return {
-            'id': self.id,
-            'created': self.created,
-            'updated': self.updated,
             'avatar': self.avatar,
             'email': self.email,
             'lastResetSentAt': self.last_reset_sent_at,
+            **self._base_dict
         }
 
     @classmethod
@@ -69,7 +68,7 @@ class Admin(BaseModel):
         self.email = data.get('email', '')
         self.last_reset_sent_at = data.get('lastResetSentAt', '')
         
-    def clone(self):
+    def clone(self) -> dict:
         """
         Robust deep clone of a model.
         clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }

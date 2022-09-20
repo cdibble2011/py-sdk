@@ -31,94 +31,71 @@ class Client:
     export default class Client {}
     baseUrl: string;
 
-    /**
-     * Hook that get triggered right before sending the fetch request,
-     * allowing you to inspect/modify the request config.
-     *
-     * Returns the new modified config that will be used to send the request.
-     *
-     * For list of the possible options check https://developer.mozilla.org/en-US/docs/Web/API/fetch#options
-     *
-     * Example:
-     * ```js
-     * client.beforeSend = function (url, reqConfig) {
-     *     reqConfig.headers = Object.assign({}, reqConfig.headers, {
-     *         'X-Custom-Header': 'example',
-     *     });
-     *
-     *     return reqConfig;
-     * };
-     * ```
-     */
+        Hook that get triggered right before sending the fetch request,
+        allowing you to inspect/modify the request config.
+    
+        Returns the new modified config that will be used to send the request.
+    
+        For list of the possible options check https://developer.mozilla.org/en-US/docs/Web/API/fetch#options
+    
+        Example:
+        ```js
+        client.beforeSend = function (url, reqConfig) {
+            reqConfig.headers = Object.assign({}, reqConfig.headers, {
+                'X-Custom-Header': 'example',
+            });
+    
+            return reqConfig;
+        };
+        ```
     beforeSend?: (url: string, reqConfig: { [key: string]: any }) => { [key: string]: any };
 
-    /**
-     * Hook that get triggered after successfully sending the fetch request,
-     * allowing you to inspect/modify the response object and its parsed data.
-     *
-     * Returns the new Promise resolved `data` that will be returned to the client.
-     *
-     * Example:
-     * ```js
-     * client.afterSend = function (response, data) {
-     *     if (response.status != 200) {
-     *         throw new ClientResponseError({
-     *             url:      response.url,
-     *             status:   response.status,
-     *             data:     data,
-     *         });
-     *     }
-     *
-     *     return data;
-     * };
-     * ```
-     */
+    
+        Hook that get triggered after successfully sending the fetch request,
+        allowing you to inspect/modify the response object and its parsed data.
+    
+        Returns the new Promise resolved `data` that will be returned to the client.
+        Example:
+            ```js
+            client.afterSend = function (response, data) {
+                if (response.status != 200) {
+                    throw new ClientResponseError({
+                        url:      response.url,
+                        status:   response.status,
+                        data:     data,
+                    });
+                }
+            return data;
+            };
+        ```
+    
     afterSend?: (response: Response, data: any) => any;
 
-    /**
-     * Optional language code (default to `en-US`) that will be sent
-     * with the requests to the server as `Accept-Language` header.
-     */
+    # Optional language code (default to `en-US`) that will be sent with the requests to the server as `Accept-Language` header.
     lang: string;
 
-    /**
-     * A replaceable instance of the local auth store service.
-     */
+    # A replaceable instance of the local auth store service.
     authStore: BaseAuthStore;
 
-    /**
-     * An instance of the service that handles the **Settings APIs**.
-     */
+    # An instance of the service that handles the **Settings APIs**.
     readonly settings: Settings;
 
-    /**
-     * An instance of the service that handles the **Admin APIs**.
-     */
+    # An instance of the service that handles the **Admin APIs**.
     readonly admins: Admins;
 
-    /**
-     * An instance of the service that handles the **User APIs**.
-     */
+    # An instance of the service that handles the **User APIs**.
     readonly users: Users;
 
-    /**
-     * An instance of the service that handles the **Collection APIs**.
-     */
+    # An instance of the service that handles the **Collection APIs**.
     readonly collections: Collections;
 
-    /**
-     * An instance of the service that handles the **Record APIs**.
-     */
+    # An instance of the service that handles the **Record APIs**.
     readonly records: Records;
 
-    /**
-     * An instance of the service that handles the **Log APIs**.
-     */
+    # An instance of the service that handles the **Log APIs**.
     readonly logs: Logs;
 
-    /**
-     * An instance of the service that handles the **Realtime APIs**.
-     */
+    # An instance of the service that handles the **Realtime APIs**.
     readonly realtime: Realtime;
 
     private cancelControllers: { [key: string]: AbortController } = {}
@@ -159,69 +136,37 @@ class Client:
         self.settings = Settings(self)
         self.realtime = Realtime(self)
     """
-    def auth_store(self):
-        # @deprecated Legacy alias for `this.authStore`.
-        get AuthStore(): BaseAuthStore {
-            return this.authStore;
-        };
-        
+    def auth_store(self): # @deprecated Legacy alias for `this.authStore`.
+        get AuthStore(): BaseAuthStore { return this.authStore; };
         return self.auth_store
         
-    def settings(self): 
-    # @deprecated Legacy alias for `this.settings`.
-    get Settings(): Settings {
-        return this.settings;
-    };
-    
+    def settings(self): # @deprecated Legacy alias for `this.settings`.
+        get Settings(): Settings { return this.settings; };
         return self.settings
     
-    def admins(self): 
-    # @deprecated Legacy alias for `this.admins`.
-    get Admins(): Admins {
-        return this.admins;
-    };
+    def admins(self): # @deprecated Legacy alias for `this.admins`.
+        get Admins(): Admins { return this.admins; };
+        return self.admins
+    
+    def users(self): # @deprecated Legacy alias for `this.users`.
+        get Users(): Users { return this.users; };
+        return self.users
 
-    return self.admins
-    
-    def users(self):
-    # @deprecated Legacy alias for `this.users`.
-    get Users(): Users {
-        return this.users;
-    };
-    
-    return self.users
+    def collections(self): # @deprecated Legacy alias for `this.collections`.
+        get Collections(): Collections { return this.collections; };    
+        return self.collections
 
-    def collections(self):
-    # @deprecated Legacy alias for `this.collections`.
-    get Collections(): Collections {
-        return this.collections;
-    };
-    
-    return self.collections
+    def records(Self): # @deprecated Legacy alias for `this.records`.
+        get Records(): Records { return this.records; };
+        return self.records
 
-    def records(Self):
-    # @deprecated Legacy alias for `this.records`.
-    get Records(): Records {
-        return this.records;
-    };
+    def logs(self): # @deprecated Legacy alias for `this.logs`.
+        get Logs(): Logs { return this.logs; };
+        return self.logs
     
-    return self.records
-
-    def logs(self):
-    # @deprecated Legacy alias for `this.logs`.
-    get Logs(): Logs {
-        return this.logs;
-    };
-    
-    return self.logs
-    
-    def realtime(self):
-    # @deprecated Legacy alias for `this.realtime`.
-    get Realtime(): Realtime {
-        return this.realtime;
-    };
-    
-    return self.realtime
+    def realtime(self): # @deprecated Legacy alias for `this.realtime`.
+        get Realtime(): Realtime { return this.realtime; };
+        return self.realtime
     """
 
     def cancel_request(self, cancel_key: str):
@@ -241,7 +186,7 @@ class Client:
             self.cancel_controllers[cancel_key].abort()
             del self.cancel_controllers[cancel_key]
         
-    def cancel_all_requestS(self):
+    def cancel_all_requests(self):
         """
         /Cancels all pending requests.
         

@@ -22,7 +22,7 @@ class SchemaField(ABC):
         """
         constructor(data: { [key: string]: any } = {}) { this.load(data || {}); }
         """
-        self.load(data)
+        self.load(data or {})
 
     @abstractmethod
     def __repr__(self):
@@ -32,6 +32,7 @@ class SchemaField(ABC):
     def __str__(self):
         pass
 
+    @abstractmethod
     def load(self, data: dict):
         """
         Loads `data` into the field.
@@ -54,15 +55,16 @@ class SchemaField(ABC):
         self.unique = bool(data.get('unique', False))
         self.options = data.get('options', {})
 
+    @abstractmethod
     def to_dict(self):
-        return {
+        self._base_dict = {
             'id': self.id,
             'name': self.name,
             'type': self.type,
             'system': self.system,
             'required': self.required,
             'unique': self.unique,
-            'options': self.options
+            'options': self.options,
         }
 
     def __eq__(self, other):

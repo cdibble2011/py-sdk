@@ -57,11 +57,9 @@ class LogRequest(BaseModel):
     def __hash__(self):
         return hash((self.url, self.method, self.status, self.auth, self.remote_ip, self.user_ip, self.referer, self.user_agent, self.meta))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        super().to_dict()
         return {
-            'id': self.id,
-            'created': self.created,
-            'updated': self.updated,
             'url': self.url,
             'method': self.method,
             'status': self.status,
@@ -71,6 +69,7 @@ class LogRequest(BaseModel):
             'referer': self.referer,
             'userAgent': self.user_agent,
             'meta': self.meta,
+            **self._base_dict
         }
 
     @classmethod
@@ -120,7 +119,7 @@ class LogRequest(BaseModel):
         self.user_agent = data.get('userAgent', '')
         self.meta = data.get('meta', {})
         
-    def clone(self):
+    def clone(self) -> dict:
         """
         Robust deep clone of a model.
         clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }

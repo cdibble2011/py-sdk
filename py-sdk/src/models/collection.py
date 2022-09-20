@@ -66,11 +66,9 @@ class Collection(BaseModel):
         for field in data.get('schema', []):
             self.schema.append(SchemaField(field))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        super().to_dict()
         return {
-            'id': self.id,
-            'created': self.created,
-            'updated': self.updated,
             'name': self.name,
             'system': self.system,
             'listRule': self.list_rule,
@@ -78,14 +76,15 @@ class Collection(BaseModel):
             'createRule': self.create_rule,
             'updateRule': self.update_rule,
             'deleteRule': self.delete_rule,
-            'schema': [field.to_dict() for field in self.schema]
+            'schema': [field.to_dict() for field in self.schema],
+            **self._base_dict
         }
     
     @classmethod
     def from_dict(cls, data: dict):
         return cls(data)
 
-    def clone(self):
+    def clone(self) -> dict:
         """
         Robust deep clone of a model.
         clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }

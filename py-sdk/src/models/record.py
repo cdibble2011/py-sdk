@@ -37,15 +37,14 @@ class Record(BaseModel):
     def __hash__(self):
         return hash((self.collection_id, self.collection_name, self.expand, self.__dict__))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        super().to_dict()
         return {
-            'id': self.id,
-            'created': self.created,
-            'updated': self.updated,
             '@collectionId': self.collection_id,
             '@collectionName': self.collection_name,
             '@expand': self.expand,
             **self.__dict__,
+            **self._base_dict,
         }
 
     @classmethod
@@ -76,7 +75,7 @@ class Record(BaseModel):
         self.collection_name = data.get('@collectionName', '')
         self.expand = data.get('@expand', {})
         
-    def clone(self):
+    def clone(self) -> dict:
         """
         Robust deep clone of a model.
         clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }

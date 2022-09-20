@@ -39,14 +39,13 @@ class ExternalAuth(BaseModel):
     def __hash__(self):
         return hash((self.user_id, self.provider, self.provider_id))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        super().to_dict()
         return {
-            'id': self.id,
-            'created': self.created,
-            'updated': self.updated,
             'userId': self.user_id,
             'provider': self.provider,
             'providerId': self.provider_id,
+            **self._base_dict
         }
     
     @classmethod
@@ -72,7 +71,7 @@ class ExternalAuth(BaseModel):
         self.provider = data.get('provider', '')
         self.provider_id = data.get('providerId', '')
         
-    def clone(self):
+    def clone(self) -> dict:
         """
         Robust deep clone of a model.
         clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
