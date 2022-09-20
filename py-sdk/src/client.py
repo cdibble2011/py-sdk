@@ -25,14 +25,10 @@ from .services import Settings, Admins, Users, Collections, Records, Logs, Realt
 
 class Client:
     """
-    /**
-     * PocketBase JS Client.
-     */
-    export default class Client {}
+    PocketBase JS Client.
+    The base PocketBase backend url address (eg. 'http://127.0.0.1.8090').
 
-    /**
-     * The base PocketBase backend url address (eg. 'http://127.0.0.1.8090').
-     */
+    export default class Client {}
     baseUrl: string;
 
     /**
@@ -164,10 +160,7 @@ class Client:
         self.realtime = Realtime(self)
     """
     def auth_store(self):
-        
-        /**
-         * @deprecated Legacy alias for `this.authStore`.
-         */
+        # @deprecated Legacy alias for `this.authStore`.
         get AuthStore(): BaseAuthStore {
             return this.authStore;
         };
@@ -175,10 +168,7 @@ class Client:
         return self.auth_store
         
     def settings(self): 
-    
-    /**
-     * @deprecated Legacy alias for `this.settings`.
-     */
+    # @deprecated Legacy alias for `this.settings`.
     get Settings(): Settings {
         return this.settings;
     };
@@ -186,9 +176,7 @@ class Client:
         return self.settings
     
     def admins(self): 
-    /**
-     * @deprecated Legacy alias for `this.admins`.
-     */
+    # @deprecated Legacy alias for `this.admins`.
     get Admins(): Admins {
         return this.admins;
     };
@@ -196,10 +184,7 @@ class Client:
     return self.admins
     
     def users(self):
-    
-    /**
-     * @deprecated Legacy alias for `this.users`.
-     */
+    # @deprecated Legacy alias for `this.users`.
     get Users(): Users {
         return this.users;
     };
@@ -207,10 +192,7 @@ class Client:
     return self.users
 
     def collections(self):
-    
-    /**
-     * @deprecated Legacy alias for `this.collections`.
-     */
+    # @deprecated Legacy alias for `this.collections`.
     get Collections(): Collections {
         return this.collections;
     };
@@ -218,10 +200,7 @@ class Client:
     return self.collections
 
     def records(Self):
-    
-    /**
-     * @deprecated Legacy alias for `this.records`.
-     */
+    # @deprecated Legacy alias for `this.records`.
     get Records(): Records {
         return this.records;
     };
@@ -229,10 +208,7 @@ class Client:
     return self.records
 
     def logs(self):
-    
-    /**
-     * @deprecated Legacy alias for `this.logs`.
-     */
+    # @deprecated Legacy alias for `this.logs`.
     get Logs(): Logs {
         return this.logs;
     };
@@ -240,10 +216,7 @@ class Client:
     return self.logs
     
     def realtime(self):
-    
-    /**
-     * @deprecated Legacy alias for `this.realtime`.
-     */
+    # @deprecated Legacy alias for `this.realtime`.
     get Realtime(): Realtime {
         return this.realtime;
     };
@@ -253,9 +226,8 @@ class Client:
 
     def cancel_request(self, cancel_key: str):
         """
-        /**
-         * Cancels single request by its cancellation key.
-         */
+        Cancels single request by its cancellation key.
+        
         cancelRequest(cancelKey: string): Client {
             if (this.cancelControllers[cancelKey]) {
                 this.cancelControllers[cancelKey].abort();
@@ -271,16 +243,13 @@ class Client:
         
     def cancel_all_requestS(self):
         """
-        /**
-         * Cancels all pending requests.
-         */
+        /Cancels all pending requests.
+        
         cancelAllRequests(): Client {
             for (let k in this.cancelControllers) {
                 this.cancelControllers[k].abort();
             }
-
             this.cancelControllers = {};
-
             return this;
         }
         """
@@ -290,9 +259,8 @@ class Client:
         
     async def send(self, path: str, req_config: dict):
         """
-        /**
-         * Sends an api http request.
-         */
+        Sends an api http request.
+        
         async send(path: string, reqConfig: { [key: string]: any }): Promise<any> {
             let config = Object.assign({ method: 'GET' } as { [key: string]: any }, reqConfig);
         """
@@ -302,15 +270,11 @@ class Client:
             // note1: for FormData body the Content-Type header should be skipped
             // note2: we are checking the constructor name because FormData is not available natively in node
             if (config.body && config.body.constructor.name !== 'FormData') {
-                if (typeof config.body !== 'string') {
-                    config.body = JSON.stringify(config.body);
-                }
+                if (typeof config.body !== 'string') { config.body = JSON.stringify(config.body); }
 
                 // add the json header (if not already)
                 if (typeof config?.headers?.['Content-Type'] === 'undefined') {
-                    config.headers = Object.assign({}, config.headers, {
-                        'Content-Type': 'application/json',
-                    });
+                    config.headers = Object.assign({}, config.headers, { 'Content-Type': 'application/json', });
                 }
             }
         """
@@ -326,9 +290,7 @@ class Client:
         """
             // add Accept-Language header (if not already)
             if (typeof config?.headers?.['Accept-Language'] === 'undefined') {
-                config.headers = Object.assign({}, config.headers, {
-                    'Accept-Language': this.lang,
-                });
+                config.headers = Object.assign({}, config.headers, { 'Accept-Language': this.lang, });
             }
 
             // check if Authorization header can be added
@@ -339,13 +301,9 @@ class Client:
                 (typeof config?.headers?.Authorization === 'undefined')
             ) {
                 let authType = 'Admin';
-                if (typeof (this.authStore.model as any)?.verified !== 'undefined') {
-                    authType = 'User'; // admins don't have verified
-                }
+                if (typeof (this.authStore.model as any)?.verified !== 'undefined') { authType = 'User'; // admins don't have verified }
 
-                config.headers = Object.assign({}, config.headers, {
-                    'Authorization': (authType + ' ' + this.authStore.token),
-                });
+                config.headers = Object.assign({}, config.headers, { 'Authorization': (authType + ' ' + this.authStore.token), });
             }
         """
         # add Accept-Language header (if not already)
@@ -390,9 +348,7 @@ class Client:
             // serialize the query parameters
             if (typeof config.params !== 'undefined') {
                 const query = this.serializeQueryParams(config.params)
-                if (query) {
-                    url += (url.includes('?') ? '&' : '?') + query;
-                }
+                if (query) { url += (url.includes('?') ? '&' : '?') + query; }
                 delete config.params;
             }
         """
@@ -416,17 +372,11 @@ class Client:
             return fetch(url, config)
                 .then(async (response) => {
                     let data : any = {};
-
-                    try {
-                        data = await response.json();
-                    } catch (_) {
-                        // all api responses are expected to return json
-                        // with the exception of the realtime event and 204
-                    }
-
-                    if (this.afterSend) {
-                        data = this.afterSend(response, data);
-                    }
+                    
+                    // all api responses are expected to return json
+                    // with the exception of the realtime event and 204
+                    try { data = await response.json(); } catch (_) { }
+                    if (this.afterSend) { data = this.afterSend(response, data); }
 
                     if (response.status >= 400) {
                         throw new ClientResponseError({
@@ -435,12 +385,9 @@ class Client:
                             data:     data,
                         });
                     }
-
                     return data;
-                }).catch((err) => {
                     // wrap to normalize all errors
-                    throw new ClientResponseError(err);
-                });
+                }).catch((err) => { throw new ClientResponseError(err);});
         }
         """
         if self.before_send:
@@ -454,14 +401,11 @@ class Client:
 
     def build_url(self, path: str):
         """
-        /**
-         * Builds a full client url by safely concatenating the provided path.
-         */
+        Builds a full client url by safely concatenating the provided path.
+        
         buildUrl(path: string): string {
             let url = this.baseUrl + (this.baseUrl.endsWith('/') ? '' : '/');
-            if (path) {
-                url += (path.startsWith('/') ? path.substring(1) : path);
-            }
+            if (path) { url += (path.startsWith('/') ? path.substring(1) : path); }
             return url;
         }
         """
@@ -472,22 +416,18 @@ class Client:
     
     def serialize_parameters(self, params: dict):
         """
-        /**
-         * Serializes the provided query parameters into a query string.
-         */
+        Serializes the provided query parameters into a query string.
+        
         private serializeQueryParams(params: {[key: string]: any}): string {
             const result: Array<string> = [];
             for (const key in params) {
-                if (params[key] === null) {
-                    // skip null query params
-                    continue;
-                }
+                // skip null query params
+                if (params[key] === null) { continue; }
 
                 const value = params[key];
                 const encodedKey = encodeURIComponent(key);
-
+                // "repeat" array params
                 if (Array.isArray(value)) {
-                    // "repeat" array params
                     for (const v of value) {
                         result.push(encodedKey + "=" + encodeURIComponent(v));
                     }
@@ -495,11 +435,8 @@ class Client:
                     result.push(encodedKey + "=" + encodeURIComponent(value.toISOString()));
                 } else if (typeof value !== null && typeof value === 'object') {
                     result.push(encodedKey + "=" + encodeURIComponent(JSON.stringify(value)));
-                } else {
-                    result.push(encodedKey + "=" + encodeURIComponent(value));
-                }
+                } else { result.push(encodedKey + "=" + encodeURIComponent(value)); }
             }
-
             return result.join('&');
         }
         """

@@ -2,7 +2,10 @@
 Base Crud Service
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/services/utils/BaseCrudService.ts
+"""
 
+
+"""
 import BaseModel   from '@/models/utils/BaseModel';
 import ListResult  from '@/models/utils/ListResult';
 import BaseService from '@/services/utils/BaseService';
@@ -18,18 +21,16 @@ class BaseCrudService(BaseService, BaseModel):
     def __init__(self):
         super().__init__()
         """
-        /**
-         * Response data decoder.
-         */
+        Response data decoder.
+        
         abstract decode(data: { [key: string]: any }): M
         """
         self.decode = None
 
     def _get_full_list(self, base_path: str, batch_size: int = 100, query_params: dict = {}):
         """
-        /**
-         * Returns a promise with all list items batch fetched at once.
-         */
+        Returns a promise with all list items batch fetched at once.
+        
         protected _getFullList(basePath: string, batchSize = 100, queryParams = {}): Promise<Array<M>> {
             var result: Array<M> = [];
 
@@ -41,21 +42,17 @@ class BaseCrudService(BaseService, BaseModel):
 
                     result = result.concat(items);
 
-                    if (items.length && totalItems > result.length) {
-                        return request(page + 1);
-                    }
-                    
+                    if (items.length && totalItems > result.length) { return request(page + 1); }
                     return result;
                 });
             }
-
             return request(1);
         }
         """
         result = []
 
         async def request(page=1):
-            _list = await self._get_list(base_path: str, page: int, batch_size, query_params: dict)
+            _list = await self._get_list(base_path, page, batch_size, query_params)
             casted_list = _list
             items = casted_list.items
             total_items = casted_list.total_items
@@ -71,9 +68,8 @@ class BaseCrudService(BaseService, BaseModel):
 
     async def _get_list(self, base_path: str, page: int = 1, per_page: int = 30, query_params: dict = {}):
         """
-        /**
-         * Returns paginated items list.
-         */
+        Returns paginated items list.
+        
         protected _getList(basePath: string, page = 1, perPage = 30, queryParams = {}): Promise<ListResult<M>> {
             queryParams = Object.assign({
                 'page':    page,
@@ -129,9 +125,8 @@ class BaseCrudService(BaseService, BaseModel):
 
     async def _get_one(self, base_path: str, id, query_params: dict = {}):
         """
-        /**
-         * Returns single item by its id.
-         */
+        Returns single item by its id.
+        
         protected _getOne(basePath: string, id: string, queryParams = {}): Promise<M> {
             return this.client.send(basePath + '/' + encodeURIComponent(id), {
                 'method': 'GET',
@@ -147,9 +142,8 @@ class BaseCrudService(BaseService, BaseModel):
 
     async def _create(self, base_path: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Creates a new item.
-         */
+        Creates a new item.
+        
         protected _create(basePath: string, bodyParams = {}, queryParams = {}): Promise<M> {
             return this.client.send(basePath, {
                 'method': 'POST',
@@ -167,9 +161,8 @@ class BaseCrudService(BaseService, BaseModel):
 
     async def _update(self, base_path: str, id, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Updates an existing item by its id.
-         */
+        Updates an existing item by its id.
+        
         protected _update(basePath: string, id: string, bodyParams = {}, queryParams = {}): Promise<M> {
             return this.client.send(basePath + '/' + encodeURIComponent(id), {
                 'method': 'PATCH',
@@ -187,9 +180,8 @@ class BaseCrudService(BaseService, BaseModel):
 
     async def _delete(self, base_path: str, id, query_params: dict = {}):
         """
-         /**
-         * Deletes an existing item by its id.
-         */
+        Deletes an existing item by its id.
+        
         protected _delete(basePath: string, id: string, queryParams = {}): Promise<boolean> {
             return this.client.send(basePath + '/' + encodeURIComponent(id), {
                 'method': 'DELETE',

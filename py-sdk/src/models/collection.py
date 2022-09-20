@@ -2,11 +2,11 @@
 Collection Model
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/Collection.ts
+"""
 
+"""
 import BaseModel   from '@/models/utils/BaseModel';
 import SchemaField from '@/models/utils/SchemaField';
-
-
 """
 from .utils import BaseModel, SchemaField
 
@@ -24,13 +24,10 @@ class Collection(BaseModel):
     }
     """
     def __init__(self, data: dict = {}):
-        self.load(data or {})
+        self.load(data)
 
     def load(self, data: dict):
         """
-        /**
-         * @inheritdoc
-         */
         load(data: { [key: string]: any }) {
             super.load(data);
 
@@ -71,6 +68,9 @@ class Collection(BaseModel):
 
     def to_dict(self):
         return {
+            'id': self.id,
+            'created': self.created,
+            'updated': self.updated,
             'name': self.name,
             'system': self.system,
             'listRule': self.list_rule,
@@ -80,3 +80,22 @@ class Collection(BaseModel):
             'deleteRule': self.delete_rule,
             'schema': [field.to_dict() for field in self.schema]
         }
+    
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(data)
+
+    def clone(self):
+        """
+        Robust deep clone of a model.
+        clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
+        """
+        return self.to_dict()
+
+    def export(self) -> dict:
+        """
+        Exports all model properties as a new plain object.
+        
+        export(): { [key: string]: any } { return Object.assign({}, this); }
+        """
+        return self.to_dict()

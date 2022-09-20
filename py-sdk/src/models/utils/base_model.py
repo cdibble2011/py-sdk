@@ -15,9 +15,7 @@ class BaseModel(ABC):
     """
     def __init__(self, data: dict = {}):
         """
-        constructor(data: { [key: string]: any } = {}) {
-            this.load(data || {});
-        }
+        constructor(data: { [key: string]: any } = {}) { this.load(data || {}); }
         """
         self.load(data or {})
 
@@ -32,9 +30,8 @@ class BaseModel(ABC):
     @abstractmethod
     def load(self, data: dict):
         """
-        /**
-         * Loads `data` into the current model.
-         */
+        Loads `data` into the current model.
+        
         load(data: { [key: string]: any }) {
             this.id = typeof data.id !== 'undefined' ? data.id : '';
             this.created = typeof data.created !== 'undefined' ? data.created : '';
@@ -46,12 +43,10 @@ class BaseModel(ABC):
         self.updated = data.get('updated', '')
 
     @property
-    @abstractmethod
     def is_new(self) -> bool:
         """
-        /**
-         * Returns whether the current loaded data represent a stored db record.
-         */
+        Returns whether the current loaded data represent a stored db record.
+        
         get isNew(): boolean {
             return (
                 // id is not set
@@ -66,23 +61,16 @@ class BaseModel(ABC):
     @abstractmethod
     def clone(self):
         """
-        /**
-         * Robust deep clone of a model.
-         */
-        clone(): BaseModel {
-            return new (this.constructor as any)(JSON.parse(JSON.stringify(this)));
-        }
+        Robust deep clone of a model.
+        clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
         """
         return self.__class__(self.export())
 
     @abstractmethod
     def export(self) -> dict:
         """
-        /**
-         * Exports all model properties as a new plain object.
-         */
-        export(): { [key: string]: any } {
-            return Object.assign({}, this);
-        }
+        Exports all model properties as a new plain object.
+        
+        export(): { [key: string]: any } { return Object.assign({}, this); }
         """
         return self.__dict__

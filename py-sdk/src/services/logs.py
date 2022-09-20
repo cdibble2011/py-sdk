@@ -34,9 +34,8 @@ class Logs(BaseService):
 
     def get_requests_list(self, page: int = 1, per_page: int = 30, query_params: dict = {}):
         """
-        /**
-         * Returns paginated logged requests list.
-         */
+        Returns paginated logged requests list.
+        
         getRequestsList(page = 1, perPage = 30, queryParams = {}): Promise<ListResult<LogRequest>> {
             queryParams = Object.assign({
                 'page':    page,
@@ -84,9 +83,8 @@ class Logs(BaseService):
 
     def get_request(self, id, query_params: dict = {}):
         """
-        /**
-         * Returns a single logged request by its id.
-         */
+        Returns a single logged request by its id.
+        
         getRequest(id: string, queryParams = {}): Promise<LogRequest> {
             return this.client.send('/api/logs/requests/' + encodeURIComponent(id), {
                 'method': 'GET',
@@ -101,9 +99,8 @@ class Logs(BaseService):
     
     def get_requests_stats(self, query_params: dict = {}):
         """
-        /**
-         * Returns request logs statistics.
-         */
+        Returns request logs statistics.
+        
         getRequestsStats(queryParams = {}): Promise<Array<HourlyStats>> {
             return this.client.send('/api/logs/requests/stats', {
                 'method': 'GET',

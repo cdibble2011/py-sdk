@@ -19,9 +19,6 @@ class Collections(CrudService):
 
     def decode(self, data):
         """
-        /**
-         * @inheritdoc
-         */
         decode(data: { [key: string]: any }): Collection {
             return new Collection(data);
         }
@@ -30,24 +27,18 @@ class Collections(CrudService):
 
     def base_crud_path(self) -> str:
         """
-        /**
-         * @inheritdoc
-         */
-        baseCrudPath(): string {
-            return '/api/collections';
-        }
+        baseCrudPath(): string { return '/api/collections'; }
         """
         return '/api/collections'
 
     def import_collections(self, collections: List[Collection], delete_missing: bool = False,  query_params: dict = {}):
         """
-        /**
-         * Imports the provided collections.
-         *
-         * If `deleteMissing` is `true`, all local collections and schema fields,
-         * that are not present in the imported configuration, WILL BE DELETED
-         * (including their related records data)!
-         */
+        Imports the provided collections.
+        
+        If `deleteMissing` is `true`, all local collections and schema fields,
+        that are not present in the imported configuration, WILL BE DELETED
+        (including their related records data)!
+        
         async import(collections: Array<Collection>, deleteMissing: boolean = false, queryParams = {}): Promise<true> {
             return this.client.send(this.baseCrudPath() + '/import', {
                 'method': 'PUT',

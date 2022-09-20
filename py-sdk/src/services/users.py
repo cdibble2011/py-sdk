@@ -2,8 +2,6 @@
 Users Service
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/services/Users.ts
-
-
 """
 
 """
@@ -22,9 +20,10 @@ class UserAuthResponse:
         user:          User,
     }
     """
-    def __init__(self, token: str, user: User):
+    def __init__(self, token: str, user: User, **kwargs):
         self.token = token
         self.user = user
+        self.__dict__.update(kwargs)
 
 
 class AuthProviderInfo:
@@ -64,20 +63,14 @@ class UsersService(CrudService):
     """
     def decode(self, data):
         """
-        /**
-         * @inheritdoc
-         */
-        decode(data: { [key: string]: any }): User {
-            return new User(data);
-        }
+        decode(data: { [key: string]: any }): User { return new User(data); }
         """
         return User(data)
     
     def auth_response(self, data):
         """
-        /**
-         * Handles user authentication response.
-         */
+        Handles user authentication response.
+        
         authResponse(data: { [key: string]: any }): UserAuthResponse {
             const response = new UserAuthResponse(data);
 
@@ -92,9 +85,6 @@ class UsersService(CrudService):
     
     def base_crud_path(self):
         """
-        /**
-         * @inheritdoc
-         */
         baseCrudPath(): string {
             return '/api/users';
         }
@@ -103,9 +93,8 @@ class UsersService(CrudService):
     
     def auth_response(self, response_data):
         """
-        /**
-         * Prepare successful authorization response.
-         */
+        Prepare successful authorization response.
+        
         protected authResponse(responseData: any): UserAuthResponse {
             const user = this.decode(responseData?.user || {});
 
@@ -127,15 +116,14 @@ class UsersService(CrudService):
     
     def auth_via_oauth2(self, provider: str, code: str, code_verifier: str, redirect_url: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Authenticate a user via OAuth2 client provider.
-         *
-         * On success, this method also automatically updates
-         * the client's AuthStore data and returns:
-         * - new user authentication token
-         * - the authenticated user model record
-         * - the OAuth2 user profile data (eg. name, email, avatar, etc.)
-         */
+        Authenticate a user via OAuth2 client provider.
+        
+        On success, this method also automatically updates
+        the client's AuthStore data and returns:
+        - new user authentication token
+        - the authenticated user model record
+        - the OAuth2 user profile data (eg. name, email, avatar, etc.)
+        
         authViaOAuth2(
             provider: string,
             code: string,
@@ -178,9 +166,8 @@ class UsersService(CrudService):
 
     def request_password_reset(self, email: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Sends user password reset request.
-         */
+        Sends user password reset request.
+        
         requestPasswordReset(
             email: string,
             bodyParams  = {},
@@ -208,9 +195,8 @@ class UsersService(CrudService):
     
     def request_email_change(self,new_email: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Sends an email change request to the authenticated user.
-         */
+        Sends an email change request to the authenticated user.
+        
         requestEmailChange(
             newEmail: string,
             bodyParams = {},
@@ -238,9 +224,8 @@ class UsersService(CrudService):
 
     def confirm_password_reset(self, password_reset_token: str, password: str, password_confirm: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Confirms user password reset request.
-         */
+        Confirms user password reset request.
+        
         confirmPasswordReset(
             passwordResetToken: string,
             password: string,
@@ -274,9 +259,8 @@ class UsersService(CrudService):
 
     def request_verification(self, email: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Sends user verification email request.
-         */
+        Sends user verification email request.
+        
         requestVerification(
             email: string,
             bodyParams = {},
@@ -304,9 +288,8 @@ class UsersService(CrudService):
         
     def confirm_verification(self, verification_token_string: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Confirms user email verification request.
-         */
+        Confirms user email verification request.
+        
         confirmVerification(
             verificationToken: string,
             bodyParams  = {},
@@ -334,9 +317,8 @@ class UsersService(CrudService):
 
     def confirm_email_change(self, email_change_token: str, password: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Confirms user new email address.
-         */
+        Confirms user new email address.
+        
         confirmEmailChange(
             emailChangeToken: string,
             password: string,
@@ -367,14 +349,13 @@ class UsersService(CrudService):
     
     def auth_via_email(self, email: str, password: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Authenticate a user via its email and password.
-         *
-         * On success, this method also automatically updates
-         * the client's AuthStore data and returns:
-         * - new user authentication token
-         * - the authenticated user model record
-         */
+        Authenticate a user via its email and password.
+        
+        On success, this method also automatically updates
+        the client's AuthStore data and returns:
+        - new user authentication token
+        - the authenticated user model record
+        
         authViaEmail(
             email: string,
             password: string,
@@ -408,9 +389,8 @@ class UsersService(CrudService):
 
     def list_external_auths(self, user_id: str, query_params: dict = {}):
         """
-        /**
-         * Lists all linked external auth providers for the specified user.
-         */
+        Lists all linked external auth providers for the specified user.
+        
         listExternalAuths(
             userId: string,
             queryParams = {}
@@ -439,14 +419,13 @@ class UsersService(CrudService):
     
     def refresh(self, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Refresh user authentication token.
-         *
-         * On success, this method also automatically updates
-         * the client's AuthStore data and returns:
-         * - new user authentication token
-         * - the authenticated user model record
-         */
+        Refresh user authentication token.
+        
+        On success, this method also automatically updates
+        the client's AuthStore data and returns:
+        - new user authentication token
+        - the authenticated user model record
+        
         refresh(bodyParams = {}, queryParams = {}): Promise<UserAuthResponse> {
             return this.client.send(this.baseCrudPath() + '/refresh', {
                 'method':  'POST',
@@ -469,9 +448,8 @@ class UsersService(CrudService):
     
     def unlink_external_auth(self, user_id: str, provider: str, query_params: dict = {}):
         """
-        /**
-         * Unlink a single external auth provider from the specified user.
-         */
+        Unlink a single external auth provider from the specified user.
+        
         unlinkExternalAuth(
             userId: string,
             provider: string,
@@ -490,9 +468,8 @@ class UsersService(CrudService):
     
     def list_auth_methods(self, query_params: dict = {}):
         """
-        /**
-         * Returns all available application auth methods.
-         */
+        Returns all available application auth methods.
+        
         listAuthMethods(queryParams = {}): Promise<AuthMethodsList> {
             return this.client.send(this.baseCrudPath() + '/auth-methods', {
                 'method': 'GET',

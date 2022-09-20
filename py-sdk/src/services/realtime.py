@@ -25,9 +25,7 @@ class MessageData:
         
 class SubscriptionFunc:
     """
-    export interface SubscriptionFunc{
-        (data: MessageData):void;
-    }
+    export interface SubscriptionFunc{ (data: MessageData):void; }
     """
     def __init__(self, data: MessageData):
         self.data = data
@@ -47,9 +45,8 @@ class Realtime(BaseService):
     
     async def subscribe(self, subscription, callback):
         """        
-        /**
-         * Inits the sse connection (if not already) and register the subscription.
-         */
+        Inits the sse connection (if not already) and register the subscription.
+        
         async subscribe(subscription: string, callback: SubscriptionFunc): Promise<void> {
             if (!subscription) {
                 throw new Error('subscription must be set.')
@@ -100,37 +97,28 @@ class Realtime(BaseService):
     
     async def unsubscribe(self, subscription=None):
         """
-        /**
-         * Unsubscribe from a subscription.
-         *
-         * If the `subscription` argument is not set,
-         * then the client will unsubscribe from all registered subscriptions.
-         *
-         * The related sse connection will be autoclosed if after the
-         * unsubscribe operations there are no active subscriptions left.
-         */
+        Unsubscribe from a subscription.
+        
+        If the `subscription` argument is not set,
+        then the client will unsubscribe from all registered subscriptions.
+        
+        The related sse connection will be autoclosed if after the
+        unsubscribe operations there are no active subscriptions left.
+        
         async unsubscribe(subscription?: string): Promise<void> {
-            if (!subscription) {
                 // remove all subscriptions
+            if (!subscription) {
                 this.removeSubscriptionListeners();
                 this.subscriptions = {};
-            } else if (this.subscriptions[subscription]) {
                 // remove a single subscription
+            } else if (this.subscriptions[subscription]) {
                 this.eventSource?.removeEventListener(subscription, this.subscriptions[subscription]);
                 delete this.subscriptions[subscription];
-            } else {
                 // not subscribed to the specified subscription
-                return
-            }
-
-            if (this.clientId) {
-                await this.submitSubscriptions();
-            }
-
-            // no more subscriptions -> close the sse connection
-            if (!Object.keys(this.subscriptions).length) {
-                this.disconnect();
-            }
+            } else { return }
+            if (this.clientId) { await this.submitSubscriptions(); }
+                // no more subscriptions -> close the sse connection
+            if (!Object.keys(this.subscriptions).length) { this.disconnect(); }
         }
         """
         if not subscription:
@@ -181,15 +169,9 @@ class Realtime(BaseService):
     def add_subscription_listeners(self):
         """
         private addSubscriptionListeners(): void {
-            if (!this.eventSource) {
-                return;
-            }
-
+            if (!this.eventSource) { return; }
             this.removeSubscriptionListeners();
-            
-            for (let sub in this.subscriptions) {
-                this.eventSource.addEventListener(sub, this.subscriptions[sub]);
-            }
+            for (let sub in this.subscriptions) { this.eventSource.addEventListener(sub, this.subscriptions[sub]); }
         }
         """
         if not self.event_source:
@@ -203,13 +185,9 @@ class Realtime(BaseService):
     def remove_subscription_listeners(self):
         """
         private removeSubscriptionListeners(): void {
-            if (!this.eventSource) {
-                return;
-            }
+            if (!this.eventSource) { return; }
 
-            for (let sub in this.subscriptions) {
-                this.eventSource.removeEventListener(sub, this.subscriptions[sub]);
-            }
+            for (let sub in this.subscriptions) { this.eventSource.removeEventListener(sub, this.subscriptions[sub]); }
         }
         """
         if not self.event_source:

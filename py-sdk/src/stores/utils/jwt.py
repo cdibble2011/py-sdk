@@ -23,9 +23,8 @@ def a_to_b_polyfill(atob):
 
 def get_token_payload(token: str):
     """
-    /**
-     * Returns JWT token's payload data.
-     */
+    Returns JWT token's payload data.
+
     export function getTokenPayload(token: string): { [key: string]: any } {
         if (token) {
             try {
@@ -52,24 +51,21 @@ def get_token_payload(token: str):
 
 def is_token_expired(token: str, expiration_threshold: int = 0) -> bool:
     """
-    /**
-     * Checks whether a JWT token is expired or not.
-     * Tokens without `exp` payload key are considered valid.
-     * Tokens with empty payload (eg. invalid token strings) are considered expired.
-     *
-     * @param token The token to check.
-     * @param [expirationThreshold] Time in seconds that will be subtracted from the token `exp` property.
-     */
+    
+    Checks whether a JWT token is expired or not.
+    Tokens without `exp` payload key are considered valid.
+    Tokens with empty payload (eg. invalid token strings) are considered expired.
+    
+    @param token The token to check.
+    @param [expirationThreshold] Time in seconds that will be subtracted from the token `exp` property.
+    
     export function isTokenExpired(token: string, expirationThreshold = 0): boolean {
         let payload = getTokenPayload(token);
 
         if (
             Object.keys(payload).length > 0 &&
             (!payload.exp || (payload.exp - expirationThreshold) > (Date.now() / 1000))
-        ) {
-            return false;
-        }
-
+        ) { return false; }
         return true;
     }
     """

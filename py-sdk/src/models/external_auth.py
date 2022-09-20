@@ -2,7 +2,9 @@
 External Auth Model
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/ExternalAuth.ts
+"""
 
+"""
 import BaseModel from '@/models/utils/BaseModel';
 """
 from .utils import BaseModel
@@ -15,19 +17,21 @@ class ExternalAuth(BaseModel):
         providerId!: string;    
     }
     """
-    def __init__(self, user_id: str, provider: str, provider_id: str):
-        self.user_id = user_id
-        self.provider = provider
-        self.provider_id = provider_id
+    def __init__(self, data: dict = {}): # user_id: str, provider: str, provider_id: str):
+        self.load(data)
 
     def __repr__(self):
-        return f'<ExternalAuth user_id={self.user_id} provider={self.provider} provider_id={self.provider_id}>'
+        return f'<ExternalAuth user_id={self.user_id} \
+                               provider={self.provider} \
+                               provider_id={self.provider_id}>'
 
     def __str__(self):
         return self.__repr__()
 
     def __eq__(self, other):
-        return self.user_id == other.user_id and self.provider == other.provider and self.provider_id == other.provider_id
+        return self.user_id == other.user_id and \
+               self.provider == other.provider and \
+               self.provider_id == other.provider_id
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -37,24 +41,23 @@ class ExternalAuth(BaseModel):
 
     def to_dict(self):
         return {
+            'id': self.id,
+            'created': self.created,
+            'updated': self.updated,
             'userId': self.user_id,
             'provider': self.provider,
             'providerId': self.provider_id,
         }
-
-    @staticmethod
-    def from_dict(data):
-        return ExternalAuth(
-            data.get('userId', ''),
-            data.get('provider', ''),
-            data.get('providerId', ''),
-        )
+    
+    @classmethod
+    def from_dict(cls, data: dict):
+        data['userId'] = data.get('userId', ''),
+        data['provider'] = data.get('provider', ''),
+        data['providerId'] = data.get('providerId', ''),
+        return cls(data)
     
     def load(self, data: dict):
         """
-        /**
-         * @inheritdoc
-         */
         load(data: { [key: string]: any }) {
             super.load(data);
 
@@ -68,3 +71,18 @@ class ExternalAuth(BaseModel):
         self.user_id = data.get('userId', '')
         self.provider = data.get('provider', '')
         self.provider_id = data.get('providerId', '')
+        
+    def clone(self):
+        """
+        Robust deep clone of a model.
+        clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
+        """
+        return self.to_dict()
+
+    def export(self) -> dict:
+        """
+        Exports all model properties as a new plain object.
+        
+        export(): { [key: string]: any } { return Object.assign({}, this); }
+        """
+        return self.to_dict()

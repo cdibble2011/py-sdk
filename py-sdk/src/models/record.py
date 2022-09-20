@@ -2,7 +2,9 @@
 Record Model
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/Record.ts
+"""
 
+"""
 import BaseModel from '@/models/utils/BaseModel';
 """
 from .utils import BaseModel
@@ -17,11 +19,8 @@ class Record(BaseModel):
         '@expand'!:         {[key: string]: any}; 
     }
     """
-    def __init__(self, collection_id: str, collection_name: str, expand, **kwargs):
-        self.collection_id = collection_id
-        self.collection_name = collection_name
-        self.expand = expand
-        self.__dict__.update(kwargs)
+    def __init__(self, data):
+        self.load(data)
 
     def __repr__(self):
         return f'<Record collection_id={self.collection_id} collection_name={self.collection_name} expand={self.expand} **kwargs={self.__dict__}>'
@@ -40,26 +39,24 @@ class Record(BaseModel):
 
     def to_dict(self):
         return {
+            'id': self.id,
+            'created': self.created,
+            'updated': self.updated,
             '@collectionId': self.collection_id,
             '@collectionName': self.collection_name,
             '@expand': self.expand,
             **self.__dict__,
         }
 
-    @staticmethod
-    def from_dict(data):
-        return Record(
-            data.get('@collectionId', ''),
-            data.get('@collectionName', ''),
-            data.get('@expand', {}),
-            **data,
-        )
+    @classmethod
+    def from_dict(cls, data: dict):
+        data['@collectionId'] = data.get('@collectionId', '')
+        data['@collectionName'] = data.get('@collectionName', '')
+        data['@expand'] = data.get('@expand', {})
+        return cls(data)
 
     def load(self, data: dict):
         """
-        /**
-         * @inheritdoc
-         */
         load(data: { [key: string]: any }) {
             super.load(data);
 
@@ -78,3 +75,18 @@ class Record(BaseModel):
         self.collection_id = data.get('@collectionId', '')
         self.collection_name = data.get('@collectionName', '')
         self.expand = data.get('@expand', {})
+        
+    def clone(self):
+        """
+        Robust deep clone of a model.
+        clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
+        """
+        return self.to_dict()
+
+    def export(self) -> dict:
+        """
+        Exports all model properties as a new plain object.
+        
+        export(): { [key: string]: any } { return Object.assign({}, this); }
+        """
+        return self.to_dict()

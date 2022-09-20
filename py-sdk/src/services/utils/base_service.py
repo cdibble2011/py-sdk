@@ -11,18 +11,13 @@ from ...client import Client
 
 class BaseService(ABC):
     """
-    /**
-     * BaseService class that should be inherited from all API services.
-     */
-    export default abstract class BaseService {
-        readonly client: Client
-    }
+    BaseService class that should be inherited from all API services.
+    
+    export default abstract class BaseService { readonly client: Client; }
     """
     def __init__(self, client: Client):
         """
-        constructor(client: Client) {
-            this.client = client;
-        }
+        constructor(client: Client) { this.client = client;}
         """
         self.client = client
 

@@ -3,12 +3,10 @@ Cookie Stores
 
 Source https://github.com/pocketbase/js-sdk/blob/master/src/stores/utils/cookie.ts
 
-/**
- * -------------------------------------------------------------------
- * Simple cookie parse and serialize utilities mostly based on the
- * node module https://github.com/jshttp/cookie.
- * -------------------------------------------------------------------
- */
+--------------------------------------------------------------------
+| Simple cookie parse and serialize utilities mostly based on the  |
+| node module https://github.com/jshttp/cookie.                    |
+--------------------------------------------------------------------
 """
 import math
 from datetime import datetime
@@ -22,9 +20,7 @@ fieldContentRegExp = "/^[\u0009\u0020-\u007e\u0080-\u00ff]+$/"
 
 def parse_options(val):
     """
-    export interface ParseOptions{
-        decode?: (val: string) => string,
-    }
+    export interface ParseOptions{ decode?: (val: string) => string, }
     """
     if val is None:
         return {}
@@ -36,16 +32,13 @@ def parse_options(val):
 
 def cookie_parse(string, options=None):
     """
-    /**
-    * Parses the given cookie header string into an object
-    * The object has the various cookies as keys(names) => values
-    */
+    Parses the given cookie header string into an object
+    The object has the various cookies as keys(names) => values
+    
     export function cookieParse(str: string, options?: ParseOptions): { [key: string]: any }  {
         const result: { [key: string]: any } = {};
 
-        if (typeof str !== 'string') {
-            return result;
-        }
+        if (typeof str !== 'string') { return result; }
 
         const opt    = Object.assign({}, options || {});
         const decode = opt.decode || defaultDecode;
@@ -55,9 +48,7 @@ def cookie_parse(string, options=None):
             const eqIdx = str.indexOf('=', index);
 
             // no more cookie pairs
-            if (eqIdx === -1) {
-                break;
-            }
+            if (eqIdx === -1) { break; }
 
             let endIdx = str.indexOf(';', index);
 
@@ -76,17 +67,12 @@ def cookie_parse(string, options=None):
                 let val = str.slice(eqIdx + 1, endIdx).trim();
 
                 // quoted values
-                if (val.charCodeAt(0) === 0x22) {
-                    val = val.slice(1, -1);
-                }
+                if (val.charCodeAt(0) === 0x22) { val = val.slice(1, -1); }
 
-                try {
-                    result[key] = decode(val);
-                } catch (_) {
+                try { result[key] = decode(val); } catch (_) {
                     result[key] = val; // no decoding
                 }
             }
-
             index = endIdx + 1;
         }
 
@@ -146,10 +132,9 @@ def serialize_options(val):
 
 def default_decode(val):
     """
-    /**
-     * Default URL-decode string value function.
-     * Optimized to skip native call when no `%`.
-     */
+    Default URL-decode string value function.
+    Optimized to skip native call when no `%`.
+    
     function defaultDecode(val: string): string {
         return val.indexOf('%') !== -1
             ? decodeURIComponent(val)
@@ -161,20 +146,16 @@ def default_decode(val):
 
 def default_encode(val):
     """
-    /**
-     * Default URL-encode value function.
-     */
-    function defaultEncode(val: string | number | boolean): string {
-        return encodeURIComponent(val);
-    }
+    Default URL-encode value function.
+    
+    function defaultEncode(val: string | number | boolean): string { return encodeURIComponent(val); }
     """
     return urllib.parse.quote(val, safe='~()*!\'')
 
 def is_date(val) -> bool:
     """
-    /**
-     * Determines if value is a Date.
-     */
+    Determines if value is a Date.
+    
     function isDate(val: any): boolean {
         return (
             Object.prototype.toString.call(val) === '[object Date]' ||
@@ -188,16 +169,14 @@ def is_date(val) -> bool:
 
 def cookie_serialize(name, val, options=None):
     """
-    /**
-     * Serialize data into a cookie header.
-     *
-     * Serialize the a name value pair into a cookie string suitable for
-     * http headers. An optional options object specified cookie parameters.
-     *
-     * ```js
-     * cookieSerialize('foo', 'bar', { httpOnly: true }) // "foo=bar; httpOnly"
-     * ```
-     */
+    Serialize data into a cookie header.
+    
+    Serialize the a name value pair into a cookie string suitable for
+    http headers. An optional options object specified cookie parameters.
+    ```js
+    cookieSerialize('foo', 'bar', { httpOnly: true }) // "foo=bar; httpOnly"
+    ```
+    
     export function cookieSerialize(name: string, val: string, options?: SerializeOptions): string {
         const opt    = Object.assign({}, options || {});
         const encode = opt.encode || defaultEncode;

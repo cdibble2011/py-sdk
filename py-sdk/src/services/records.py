@@ -21,20 +21,12 @@ class Records(SubCrudService):
         
     def decode(self, data):
         """
-        /**
-         * @inheritdoc
-         */
-        decode(data: { [key: string]: any }): Record {
-            return new Record(data);
-        }
+        decode(data: { [key: string]: any }): Record { return new Record(data); }
         """
         return Record(data)
     
     def base_crud_path(self, collection_id_or_name: str):
         """
-        /**
-         * @inheritdoc
-         */
         baseCrudPath(collectionIdOrName: string): string {
             return '/api/collections/' + encodeURIComponent(collectionIdOrName) + '/records';
         }
@@ -43,9 +35,8 @@ class Records(SubCrudService):
     
     def get_file_url(self, record: Record, filename: str, query_params: dict = {}) -> str:
         """
-        /**
-         * Builds and returns an absolute record file url.
-         */
+        Builds and returns an absolute record file url.
+        
         getFileUrl(record: Record, filename: string, queryParams = {}): string {
             const parts = [];
             parts.push(this.client.baseUrl.replace(/\/+$/gm, ""))
@@ -60,7 +51,6 @@ class Records(SubCrudService):
                 const params = new URLSearchParams(queryParams);
                 result += (result.includes("?") ? "&" : "?") + params;
             }
-
             return result
         }
         """

@@ -20,13 +20,11 @@ class AdminAuthResponse:
     def __init__(self, token: str, admin: Admin, **kwargs):
         self.token = token
         self.admin = admin
+        self.__dict__.update(kwargs)
         
 class Admins(CrudService):
     """
     export default class Admins extends CrudService<Admin> {
-        /**
-         * @inheritdoc
-         */
         decode(data: { [key: string]: any }): Admin {
             return new Admin(data);
         }
@@ -37,9 +35,8 @@ class Admins(CrudService):
 
     def auth_response(self, response_data) -> AdminAuthResponse:
         """
-        /**
-         * Prepare successful authorize response.
-         */
+        Prepare successful authorize response.
+        
         protected authResponse(responseData: any): AdminAuthResponse {
             const admin = this.decode(responseData?.admin || {});
 
@@ -63,23 +60,17 @@ class Admins(CrudService):
 
     def base_crud_path(self) -> str:
         """
-        /**
-         * @inheritdoc
-         */
-        baseCrudPath(): string {
-            return '/api/admins';
-        }
+        baseCrudPath(): string { return '/api/admins'; }
         """
         return '/api/admins'
 
     def auth_via_email(self, email: str, password: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Authenticate an admin account by its email and password
-         * and returns a new admin token and data.
-         *
-         * On success this method automatically updates the client's AuthStore data.
-         */
+        Authenticate an admin account by its email and password
+        and returns a new admin token and data.
+        
+        On success this method automatically updates the client's AuthStore data.
+        
         authViaEmail(
             email: string,
             password: string,
@@ -114,12 +105,12 @@ class Admins(CrudService):
 
     def refresh(self, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Refreshes the current admin authenticated instance and
-         * returns a new token and admin data.
-         *
-         * On success this method automatically updates the client's AuthStore data.
-         */
+        
+        Refreshes the current admin authenticated instance and
+        returns a new token and admin data.
+        
+        On success this method automatically updates the client's AuthStore data.
+         
         refresh(bodyParams = {}, queryParams = {}): Promise<AdminAuthResponse> {
             return this.client.send(this.baseCrudPath() + '/refresh', {
                 'method': 'POST',
@@ -136,9 +127,8 @@ class Admins(CrudService):
 
     def request_password_reset(self, email: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Sends admin password reset request.
-         */
+        Sends admin password reset request.
+        
         requestPasswordReset(
             email: string,
             bodyParams = {},
@@ -165,9 +155,8 @@ class Admins(CrudService):
 
     def confirm_password_reset(self, password_reset_token: str, password: str, password_confirm: str, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Confirms admin password reset request.
-         */
+        Confirms admin password reset request.
+        
         confirmPasswordReset(
             passwordResetToken: string,
             password: string,

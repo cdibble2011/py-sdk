@@ -2,7 +2,10 @@
 Settings Service
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/services/Settings.ts
+"""
 
+
+"""
 import BaseService from '@/services/utils/BaseService';
 """
 from .utils import BaseService
@@ -13,9 +16,8 @@ class Settings(BaseService):
     """
     def get_all(self, query_params: dict = {}):
         """
-        /**
-         * Fetch all available app settings.
-         */
+        Fetch all available app settings.
+        
         getAll(queryParams = {}): Promise<{ [key: string]: any }> {
             return this.client.send('/api/settings', {
                 'method': 'GET',
@@ -30,9 +32,8 @@ class Settings(BaseService):
 
     def update(self, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Bulk updates app settings.
-         */
+        Bulk updates app settings.
+        
         update(bodyParams = {}, queryParams = {}): Promise<{ [key: string]: any }> {
             return this.client.send('/api/settings', {
                 'method': 'PATCH',
@@ -49,9 +50,8 @@ class Settings(BaseService):
 
     def test_s3(self, query_params: dict = {}):
         """
-        /**
-         * Performs a S3 storage connection test.
-         */
+        Performs a S3 storage connection test.
+        
         testS3(queryParams = {}): Promise<boolean> {
             return this.client.send('/api/settings/test/s3', {
                 'method': 'POST',
@@ -66,14 +66,13 @@ class Settings(BaseService):
 
     def test_email(self, to_email: str, email_template: str, query_params: dict = {}):
         """
-        /**
-         * Sends a test email.
-         *
-         * The possible `emailTemplate` values are:
-         * - verification
-         * - password-reset
-         * - email-change
-         */
+        Sends a test email.
+        
+        The possible `emailTemplate` values are:
+        - verification
+        - password-reset
+        - email-change
+        
         testEmail(toEmail: string, emailTemplate: string, queryParams = {}): Promise<boolean> {
             const bodyParams = {
                 'email':    toEmail,

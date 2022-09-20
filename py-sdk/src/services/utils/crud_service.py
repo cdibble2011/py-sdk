@@ -9,7 +9,6 @@ import ListResult      from '@/models/utils/ListResult';
 import BaseModel       from '@/models/utils/BaseModel';
 import BaseCrudService from '@/services/utils/BaseCrudService';
 """
-from typing import Any, Dict, List, Optional, Union
 from ...models import BaseModel, ListResult
 from .base_crud_service import BaseCrudService
 
@@ -21,18 +20,16 @@ class CrudService(BaseCrudService, BaseModel):
     def __init__(self):
         super().__init__()
         """
-        /**
-         * Base path for the crud actions (without trailing slash, eg. '/admins').
-         */
+        Base path for the crud actions (without trailing slash, eg. '/admins').
+        
         abstract baseCrudPath(): string
         """
         self.base_crud_path = None
 
     def get_full_list(self, batch_size: int = 100, query_params: dict = {}):
         """
-        /**
-         * Returns a promise with all list items batch fetched at once.
-         */
+        Returns a promise with all list items batch fetched at once.
+        
         getFullList(batchSize = 100, queryParams = {}): Promise<Array<M>> {
             return this._getFullList(this.baseCrudPath(), batchSize, queryParams);
         }
@@ -41,9 +38,8 @@ class CrudService(BaseCrudService, BaseModel):
 
     def get_list(self, page: int = 1, per_page: int = 30, query_params: dict = {}):
         """
-        /**
-         * Returns paginated items list.
-         */
+        Returns paginated items list.
+        
         getList(page = 1, perPage = 30, queryParams = {}): Promise<ListResult<M>> {
             return this._getList(this.baseCrudPath(), page, perPage, queryParams);
         }
@@ -52,9 +48,8 @@ class CrudService(BaseCrudService, BaseModel):
 
     def get_one(self, id, query_params: dict = {}):
         """
-        /**
-         * Returns single item by its id.
-         */
+        Returns single item by its id.
+        
         getOne(id: string, queryParams = {}): Promise<M> {
             return this._getOne(this.baseCrudPath(), id, queryParams);
         }
@@ -63,9 +58,8 @@ class CrudService(BaseCrudService, BaseModel):
 
     def create(self, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Creates a new item.
-         */
+        Creates a new item.
+        
         create(bodyParams = {}, queryParams = {}): Promise<M> {
             return this._create(this.baseCrudPath(), bodyParams, queryParams);
         }
@@ -74,9 +68,8 @@ class CrudService(BaseCrudService, BaseModel):
 
     def update(self, id, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Updates an existing item by its id.
-         */
+        Updates an existing item by its id.
+        
         update(id: string, bodyParams = {}, queryParams = {}): Promise<M> {
             return this._update(this.baseCrudPath(), id, bodyParams, queryParams);
         }
@@ -85,9 +78,8 @@ class CrudService(BaseCrudService, BaseModel):
 
     def delete(self, id, query_params: dict = {}):
         """
-        /**
-         * Deletes an existing item by its id.
-         */
+        Deletes an existing item by its id.
+        
         delete(id: string, queryParams = {}): Promise<boolean> {
             return this._delete(this.baseCrudPath(), id, queryParams);
         }

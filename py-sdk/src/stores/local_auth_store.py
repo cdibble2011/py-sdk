@@ -2,13 +2,9 @@
 Local Auth Store
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/stores/LocalAuthStore.ts
-
-
-
 """
 
 """
-
 import BaseAuthStore from '@/stores/BaseAuthStore';
 import User          from '@/models/User';
 import Admin         from '@/models/Admin';
@@ -18,22 +14,18 @@ from ..models import User, Admin
 
 class LocalAuthStore(BaseAuthStore):
     """
-    /**
-     * The default token store for browsers with auto fallback
-     * to runtime/memory if local storage is undefined (eg. in node env).
-     */
+    The default token store for browsers with auto fallback
+    to runtime/memory if local storage is undefined (eg. in node env).
+    
     export default class LocalAuthStore extends BaseAuthStore {
         private storageFallback: { [key: string]: any } = {};
-        private storageKey: string
-
-        
+        private storageKey: string  
     }
     """
     def __init__(self, storage_key = "pocketbase_auth"):
         """
         constructor(storageKey = "pocketbase_auth") {
             super();
-
             this.storageKey = storageKey;
         }
         """
@@ -43,9 +35,6 @@ class LocalAuthStore(BaseAuthStore):
         
     def get_token(self):
         """
-        /**
-         * @inheritdoc
-         */
         get token(): string {
             const data = this._storageGet(this.storageKey) || {};
 
@@ -57,9 +46,6 @@ class LocalAuthStore(BaseAuthStore):
     
     def get_model(self):
         """
-        /**
-         * @inheritdoc
-         */
         get model(): User|Admin|null {
             const data = this._storageGet(this.storageKey) || {};
 
@@ -89,9 +75,6 @@ class LocalAuthStore(BaseAuthStore):
     
     def save(self, token, model):
         """
-        /**
-         * @inheritdoc
-         */
         save(token: string, model: User|Admin|null) {
             this._storageSet(this.storageKey, {
                 'token': token,
@@ -109,9 +92,6 @@ class LocalAuthStore(BaseAuthStore):
         
     def clear(self):
         """
-        /**
-         * @inheritdoc
-         */
         clear() {
             this._storageRemove(this.storageKey);
 
@@ -129,10 +109,9 @@ class LocalAuthStore(BaseAuthStore):
         
     def _storage_get(self, key):
         """
-        /**
-         * Retrieves `key` from the browser's local storage
-         * (or runtime/memory if local storage is undefined).
-         */
+        Retrieves `key` from the browser's local storage
+        (or runtime/memory if local storage is undefined).
+        
         private _storageGet(key: string): any {
             if (typeof window !== 'undefined' && window?.localStorage) {
                 const rawValue = window?.localStorage?.getItem(key) || '';
@@ -157,10 +136,9 @@ class LocalAuthStore(BaseAuthStore):
     
     def _storage_set(self, key, value):
         """
-        /**
-         * Stores a new data in the browser's local storage
-         * (or runtime/memory if local storage is undefined).
-         */
+        Stores a new data in the browser's local storage
+        (or runtime/memory if local storage is undefined).
+        
         private _storageSet(key: string, value: any) {
             if (typeof window !== 'undefined' && window?.localStorage) {
                 // store in local storage
@@ -185,9 +163,8 @@ class LocalAuthStore(BaseAuthStore):
             
     def _storage_remove(self, key):
         """
-        /**
-         * Removes `key` from the browser's local storage and the runtime/memory.
-         */
+        Removes `key` from the browser's local storage and the runtime/memory.
+        
         private _storageRemove(key: string) {
             // delete from local storage
             if (typeof window !== 'undefined') {

@@ -2,7 +2,9 @@
 User Model
 
 Source: https://github.com/pocketbase/js-sdk/blob/master/src/models/User.ts
+"""
 
+"""
 import BaseModel from '@/models/utils/BaseModel';
 import Record    from '@/models/Record';
 """
@@ -19,12 +21,8 @@ class User(BaseModel):
         profile!:                null|Record;
     }
     """
-    def __init__(self, email: str, verified: bool, last_reset_sent_at: str, last_verification_sent_at: str, profile: None or Record):
-        self.email = email
-        self.verified = verified
-        self.last_reset_sent_at = last_reset_sent_at
-        self.last_verification_sent_at = last_verification_sent_at
-        self.profile = profile
+    def __init__(self, data: dict = {}):
+        self.load(data)
 
     def __repr__(self):
         return f'<User email={self.email} verified={self.verified} last_reset_sent_at={self.last_reset_sent_at} last_verification_sent_at={self.last_verification_sent_at} profile={self.profile}>'
@@ -50,21 +48,17 @@ class User(BaseModel):
             'profile': self.profile.to_dict() if self.profile else None,
         }
 
-    @staticmethod
-    def from_dict(data):
-        return User(
-            data.get('email', ''),
-            data.get('verified', False),
-            data.get('lastResetSentAt', ''),
-            data.get('lastVerificationSentAt', ''),
-            Record.from_dict(data.get('profile', {})),
-        )
+    @classmethod
+    def from_dict(cls, data: dict):
+        data['email'] = data.get('email', ''),
+        data['verified'] = data.get('verified', False),
+        data['lastResetSentAt'] = data.get('lastResetSentAt', ''),
+        data['lastVerificationSentAt'] = data.get('lastVerificationSentAt', ''),
+        data['profile'] = Record.from_dict(data.get('profile', {})),
+        return User(data)
 
     def load(self, data: dict):
         """
-        /**
-         * @inheritdoc
-         */
         load(data: { [key: string]: any }) {
             super.load(data);
 
@@ -82,3 +76,18 @@ class User(BaseModel):
         self.last_reset_sent_at = data.get('lastResetSentAt', '')
         self.last_verification_sent_at = data.get('lastVerificationSentAt', '')
         self.profile = Record.from_dict(data.get('profile', {}))
+        
+    def clone(self):
+        """
+        Robust deep clone of a model.
+        clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
+        """
+        return self.to_dict()
+
+    def export(self) -> dict:
+        """
+        Exports all model properties as a new plain object.
+        
+        export(): { [key: string]: any } { return Object.assign({}, this); }
+        """
+        return self.to_dict()

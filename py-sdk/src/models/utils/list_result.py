@@ -18,7 +18,7 @@ class ListResult(BaseModel):
         items!: Array<M>;
     }
     """
-    def __init__(self, page: int, per_page: int, total_items: int, total_pages: int, items: list = []):
+    def __init__(self, data: dict = {}):
         """
         constructor(
             page: number,
@@ -34,32 +34,24 @@ class ListResult(BaseModel):
             this.items = items || [];
         }
         """
-        if page > 0:
-            self.page = page
-        else:
-            self.page = 1
-        if per_page >= 0:
-            self.per_page = per_page
-        else:
-            self.per_page = 0
-        if total_items >= 0:
-            self.total_items = total_items
-        else:
-            self.total_items = 0
-        if total_pages >= 0:
-            self.total_pages = total_pages
-        else:
-            self.total_pages = 0
-        self.items = items
+        self.load(data)
 
     def __repr__(self):
-        return f'<ListResult page={self.page} per_page={self.per_page} total_items={self.total_items} total_pages={self.total_pages} items={self.items}>'
+        return f'<ListResult page={self.page} \
+                             per_page={self.per_page} \
+                             total_items={self.total_items} \
+                             total_pages={self.total_pages} \
+                             items={self.items}>'
 
     def __str__(self):
         return self.__repr__()
 
     def __eq__(self, other):
-        return self.page == other.page and self.per_page == other.per_page and self.total_items == other.total_items and self.total_pages == other.total_pages and self.items == other.items
+        return self.page == other.page and \
+               self.per_page == other.per_page and \
+               self.total_items == other.total_items and \
+               self.total_pages == other.total_pages and \
+               self.items == other.items
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -67,8 +59,27 @@ class ListResult(BaseModel):
     def __hash__(self):
         return hash((self.page, self.per_page, self.total_items, self.total_pages, self.items))
 
+    
+    
+    def load(self, data: dict):
+        """
+        load(data: { [key: string]: any }) {
+            super.load(data);
+            this.items = this.items.map((item: any) => new this.itemClass(item));
+        }
+        """
+        super().load(data)
+        self.page = data.get('page', 1)
+        self.per_page = data.get('per_page', 0)
+        self.total_items = data.get('total_items', 0)
+        self.total_pages = data.get('total_pages', 0)
+        self.items = data.get('items', [])
+        
     def to_dict(self):
         return {
+            'id': self.id,
+            'created': self.created,
+            'updated': self.updated,
             'page': self.page,
             'per_page': self.per_page,
             'total_items': self.total_items,
@@ -77,11 +88,21 @@ class ListResult(BaseModel):
         }
 
     @classmethod
-    def from_dict(cls, d):
-        return cls(
-            d['page'],
-            d['per_page'],
-            d['total_items'],
-            d['total_pages'],
-            d['items'],
-        )
+    def from_dict(cls, d: dict):
+        return cls(d)
+    
+    def clone(self):
+        """
+        Robust deep clone of a model.
+        clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
+        """
+        return self.to_dict()
+
+    def export(self) -> dict:
+        """
+        Exports all model properties as a new plain object.
+        
+        export(): { [key: string]: any } { return Object.assign({}, this); }
+        """
+        return self.to_dict()
+        

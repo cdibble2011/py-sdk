@@ -7,13 +7,9 @@ import { cookieParse, cookieSerialize, SerializeOptions } from '@/stores/utils/c
 import { isTokenExpired, getTokenPayload } from '@/stores/utils/jwt';
 import User  from '@/models/User';
 import Admin from '@/models/Admin';
-
-type onChangeFunc = (token: string, model: User|Admin|null) => void;
-
-const defaultCookieKey = 'pb_auth';
-
-
 """
+
+
 """
 import { cookieParse, cookieSerialize, SerializeOptions } from '@/stores/utils/cookie';
 import { isTokenExpired, getTokenPayload } from '@/stores/utils/jwt';
@@ -31,14 +27,25 @@ import requests
 import json
 
 
+"""
+const defaultCookieKey = 'pb_auth';
+"""
 default_cookie_key = 'pb_auth'
+
+class OnChangeFunc:
+    """
+    type onChangeFunc = (token: string, model: User|Admin|null) => void;
+    """
+    def __init__(self, token: str, model: User or Admin or None) -> None:
+        self.base_token: str = token or ''
+        self.base_model: User or Admin or None = model or None
+        self.change_callbacks: List[Callable] = []
 
 class BaseAuthStore:
     """
-    /**
-     * Base AuthStore class that is intended to be extended by all other
-     * PocketBase AuthStore implementations.
-     */
+    Base AuthStore class that is intended to be extended by all other
+    PocketBase AuthStore implementations.
+    
     export default abstract class BaseAuthStore {
         protected baseToken: string = '';
         protected baseModel: User|Admin|null = null;
@@ -54,44 +61,34 @@ class BaseAuthStore:
     @property
     def token(self) -> str:
         """
-        /**
-         * Retrieves the stored token (if any).
-         */
-        get token(): string {
-            return this.baseToken;
-        }
+        Retrieves the stored token (if any).
+        
+        get token(): string { return this.baseToken; }
         """
         return self.base_token
 
     @property
     def model(self) -> Optional[Union[User, Admin]]:
         """
-        /**
-         * Retrieves the stored model data (if any).
-         */
-        get model(): User|Admin|null {
-            return this.baseModel;
-        }
+        Retrieves the stored model data (if any).
+        
+        get model(): User|Admin|null { return this.baseModel; }
         """
         return self.base_model
 
     @property
     def is_valid(self) -> bool:
         """
-        /**
-         * Checks if the store has valid (aka. existing and unexpired) token.
-         */
-        get isValid(): boolean {
-            return !isTokenExpired(this.token);
-        }
+        Checks if the store has valid (aka. existing and unexpired) token.
+        
+        get isValid(): boolean { return !isTokenExpired(this.token); }
         """
         return not is_token_expired(self.token)
 
     def save(self, token: str, model: Optional[Union[User, Admin]]) -> None:
         """
-        /**
-         * Saves the provided new token and model data in the auth store.
-         */
+        Saves the provided new token and model data in the auth store.
+        
         save(token: string, model: User|Admin|null): void {
             this.baseToken = token || '';
 
@@ -117,9 +114,8 @@ class BaseAuthStore:
 
     def clear(self) -> None:
         """
-        /**
-         * Removes the stored token and model data form the auth store.
-         */
+        Removes the stored token and model data form the auth store.
+        
         clear(): void {
             this.baseToken = '';
             this.baseModel = null;
@@ -132,10 +128,9 @@ class BaseAuthStore:
 
     def load_from_cookie(self, cookie: str, key: str = default_cookie_key) -> None:
         """
-        /**
-         * Parses the provided cookie string and updates the store state
-         * with the cookie's token and model data.
-         */
+        Parses the provided cookie string and updates the store state
+        with the cookie's token and model data.
+         
         loadFromCookie(cookie: string, key = defaultCookieKey): void {
             const rawData = cookieParse(cookie || '')[key] || '';
 
@@ -165,20 +160,19 @@ class BaseAuthStore:
 
     def export_to_cookie(self, options: Optional[serialize_options] = None, key: str = default_cookie_key) -> str:
         """
-        /**
-         * Exports the current store state as cookie string.
-         *
-         * By default the following optional attributes are added:
-         * - Secure
-         * - HttpOnly
-         * - SameSite=Strict
-         * - Path=/
-         * - Expires={the token expiration date}
-         *
-         * NB! If the generated cookie exceeds 4096 bytes, this method will
-         * strip the model data to the bare minimum to try to fit within the
-         * recommended size in https://www.rfc-editor.org/rfc/rfc6265#section-6.1.
-         */
+        Exports the current store state as cookie string.
+        
+        By default the following optional attributes are added:
+        - Secure
+        - HttpOnly
+        - SameSite=Strict
+        - Path=/
+        - Expires={the token expiration date}
+        
+        NB! If the generated cookie exceeds 4096 bytes, this method will
+        strip the model data to the bare minimum to try to fit within the
+        recommended size in https://www.rfc-editor.org/rfc/rfc6265#section-6.1.
+        
         exportToCookie(options?: SerializeOptions, key = defaultCookieKey): string {
             const defaultOptions: SerializeOptions = {
                 secure:   true,
@@ -258,9 +252,8 @@ class BaseAuthStore:
                 callback && callback(this.token, this.model);
             }
         }
-        /**
-         * Triggers the change event.
-         */
+        
+        # Triggers the change event
         triggerChange(): void {
             this.changeCallbacks.forEach((callback) => callback());
         }
@@ -270,11 +263,9 @@ class BaseAuthStore:
             
     def on_change(self, callback: Callable) -> None:
         """
-        /**
-         * Register a callback function that will be called on store change.
-         *
-         * Returns a removal function that you could call to "unsubscribe" from the changes.
-         */
+        Register a callback function that will be called on store change.
+        Returns a removal function that you could call to "unsubscribe" from the changes.
+        
         onChange(callback: () => void): () => void {
             this._onChangeCallbacks.push(callback);
 

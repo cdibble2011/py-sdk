@@ -19,51 +19,46 @@ class SubCrudService(BaseCrudService, BaseModel):
     def __init__(self):
         super().__init__()
         """
-        /**
-         * Base path for the crud actions (without trailing slash, eg. '/collections/{:sub}/records').
-         */
+        Base path for the crud actions (without trailing slash, eg. '/collections/{:sub}/records').
+        
         abstract baseCrudPath(sub: string): string
         """
         self.base_crud_path = None
 
-    def getFullList(self, sub, batch_size: int = 100, query_params: dict = {}):
+    def get_full_list(self, sub, batch_size: int = 100, query_params: dict = {}):
         """
-        /**
-         * Returns a promise with all list items batch fetched at once.
-         */
+        Returns a promise with all list items batch fetched at once.
+        
         getFullList(sub: string, batchSize = 100, queryParams = {}): Promise<Array<M>> {
             return this._getFullList(this.baseCrudPath(sub), batchSize, queryParams);
         }
         """
-        return self._getFullList(self.base_crud_path(sub), batch_size, query_params)
+        return self._get_full_list(self.base_crud_path(sub), batch_size, query_params)
 
-    def getList(self, sub, page: int = 1, per_page: int = 30, query_params: dict = {}):
+    def get_list(self, sub, page: int = 1, per_page: int = 30, query_params: dict = {}):
         """
-        /**
-         * Returns paginated items list.
-         */
+        Returns paginated items list.
+        
         getList(sub: string, page = 1, perPage = 30, queryParams = {}): Promise<ListResult<M>> {
             return this._getList(this.baseCrudPath(sub), page, perPage, queryParams);
         }
         """
         return self._getList(self.base_crud_path(sub), page, per_page, query_params)
 
-    def getOne(self, sub, id, query_params: dict = {}):
+    def get_one(self, sub, id, query_params: dict = {}):
         """
-        /**
-         * Returns single item by its id.
-         */
+        Returns single item by its id.
+        
         getOne(sub: string, id: string, queryParams = {}): Promise<M> {
             return this._getOne(this.baseCrudPath(sub), id, queryParams);
         }
         """
-        return self._getOne(self.base_crud_path(sub), id, query_params)
+        return self._get_one(self.base_crud_path(sub), id, query_params)
 
     def create(self, sub, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Creates a new item.
-         */
+        Creates a new item.
+        
         create(sub: string, bodyParams = {}, queryParams = {}): Promise<M> {
             return this._create(this.baseCrudPath(sub), bodyParams, queryParams);
         }
@@ -72,9 +67,8 @@ class SubCrudService(BaseCrudService, BaseModel):
 
     def update(self, sub, id, body_params: dict = {}, query_params: dict = {}):
         """
-        /**
-         * Updates an existing item by its id.
-         */
+        Updates an existing item by its id.
+        
         update(sub: string, id: string, bodyParams = {}, queryParams = {}): Promise<M> {
             return this._update(this.baseCrudPath(sub), id, bodyParams, queryParams);
         }

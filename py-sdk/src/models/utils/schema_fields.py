@@ -20,9 +20,7 @@ class SchemaField(ABC):
     """
     def __init__(self, data: dict = {}):
         """
-        constructor(data: { [key: string]: any } = {}) {
-            this.load(data || {});
-        }
+        constructor(data: { [key: string]: any } = {}) { this.load(data || {}); }
         """
         self.load(data)
 
@@ -36,9 +34,8 @@ class SchemaField(ABC):
 
     def load(self, data: dict):
         """
-        /**
-         * Loads `data` into the field.
-         */
+        Loads `data` into the field.
+        
         load(data: { [key: string]: any }) {
             this.id       = typeof data.id !== 'undefined' ? data.id : '';
             this.name     = typeof data.name !== 'undefined' ? data.name : '';

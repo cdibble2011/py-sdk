@@ -15,19 +15,21 @@ class Admin(BaseModel):
         lastResetSentAt!: string;
     }
     """
-    def __init__(self, avatar: int, email: str, last_reset_sent_at: str):
-        self.avatar = avatar
-        self.email = email
-        self.last_reset_sent_at = last_reset_sent_at
+    def __init__(self, data: dict = {}):
+        self.load(data)
         
     def __repr__(self):
-        return f'<Admin avatar={self.avatar} email={self.email} last_reset_sent_at={self.last_reset_sent_at}>'
+        return f'<Admin avatar={self.avatar} \
+                        email={self.email} \
+                        last_reset_sent_at={self.last_reset_sent_at}>'
 
     def __str__(self):
         return self.__repr__()
 
     def __eq__(self, other):
-        return self.avatar == other.avatar and self.email == other.email and self.last_reset_sent_at == other.last_reset_sent_at
+        return self.avatar == other.avatar and \
+               self.email == other.email and \
+               self.last_reset_sent_at == other.last_reset_sent_at
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -37,24 +39,23 @@ class Admin(BaseModel):
 
     def to_dict(self):
         return {
+            'id': self.id,
+            'created': self.created,
+            'updated': self.updated,
             'avatar': self.avatar,
             'email': self.email,
             'lastResetSentAt': self.last_reset_sent_at,
         }
 
-    @staticmethod
-    def from_dict(data):
-        return Admin(
-            data.get('avatar', 0),
-            data.get('email', ''),
-            data.get('lastResetSentAt', ''),
-        )
+    @classmethod
+    def from_dict(cls, data: dict):
+        data['avatar'] = data.get('avatar', 0)
+        data['email'] = data.get('email', '')
+        data['lastResetSentAt'] = data.get('lastResetSentAt', '')
+        return cls(data)
 
     def load(self, data: dict):
         """
-        /**
-         * @inheritdoc
-         */
         load(data: { [key: string]: any }) {
             super.load(data);
 
@@ -63,7 +64,23 @@ class Admin(BaseModel):
             this.lastResetSentAt = typeof data.lastResetSentAt === 'string' ? data.lastResetSentAt : '';
         }
         """
+        super().load(data)
         self.avatar = data.get('avatar', 0)
         self.email = data.get('email', '')
         self.last_reset_sent_at = data.get('lastResetSentAt', '')
+        
+    def clone(self):
+        """
+        Robust deep clone of a model.
+        clone(): BaseModel { return new (this.constructor as any)(JSON.parse(JSON.stringify(this))); }
+        """
+        return self.to_dict()
+
+    def export(self) -> dict:
+        """
+        Exports all model properties as a new plain object.
+        
+        export(): { [key: string]: any } { return Object.assign({}, this); }
+        """
+        return self.to_dict()
         
