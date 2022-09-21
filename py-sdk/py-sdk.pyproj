@@ -22,6 +22,39 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="pocketbase\ifaces\subscription_func.py" />
+    <Compile Include="pocketbase\ifaces\message_data.py" />
+    <Compile Include="pocketbase\ifaces\serialize_options.py" />
+    <Compile Include="pocketbase\ifaces\__init__.py" />
+    <Compile Include="pocketbase\abstracts\base_auth_store.py" />
+    <Compile Include="pocketbase\abstracts\sub_crud_service.py" />
+    <Compile Include="pocketbase\abstracts\crud_service.py" />
+    <Compile Include="pocketbase\abstracts\base_crud_service.py" />
+    <Compile Include="pocketbase\abstracts\base_service.py" />
+    <Compile Include="pocketbase\abstracts\__init__.py" />
+    <Compile Include="pocketbase\models\log_request.py" />
+    <Compile Include="pocketbase\models\collection.py" />
+    <Compile Include="pocketbase\models\external_auth.py" />
+    <Compile Include="pocketbase\models\list_result.py" />
+    <Compile Include="pocketbase\abstracts\base_model.py" />
+    <Compile Include="pocketbase\models\record.py" />
+    <Compile Include="pocketbase\models\admin.py" />
+    <Compile Include="pocketbase\models\user.py" />
+    <Compile Include="pocketbase\models\__init__.py" />
+    <Compile Include="pocketbase\services\realtime.py" />
+    <Compile Include="pocketbase\services\records.py" />
+    <Compile Include="pocketbase\services\collections.py" />
+    <Compile Include="pocketbase\services\users.py" />
+    <Compile Include="pocketbase\services\admins.py" />
+    <Compile Include="pocketbase\services\settings.py" />
+    <Compile Include="pocketbase\services\logs.py" />
+    <Compile Include="pocketbase\services\__init__.py" />
+    <Compile Include="pocketbase\types\auth_response.py" />
+    <Compile Include="pocketbase\types\schema_field.py" />
+    <Compile Include="pocketbase\types\hourly_stats.py" />
+    <Compile Include="pocketbase\types\__init__.py" />
+    <Compile Include="pocketbase\client.py" />
+    <Compile Include="pocketbase\__init__py.py" />
     <Compile Include="src\client.py" />
     <Compile Include="src\client_response_error.py" />
     <Compile Include="src\models\admin.py" />
@@ -58,6 +91,12 @@
     <Compile Include="py_sdk.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="pocketbase\" />
+    <Folder Include="pocketbase\ifaces\" />
+    <Folder Include="pocketbase\models\" />
+    <Folder Include="pocketbase\abstracts\" />
+    <Folder Include="pocketbase\services\" />
+    <Folder Include="pocketbase\types\" />
     <Folder Include="src\" />
     <Folder Include="src\models\" />
     <Folder Include="src\models\utils\" />
